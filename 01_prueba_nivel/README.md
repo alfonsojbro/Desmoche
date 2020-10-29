@@ -2,6 +2,10 @@
 
 In the project directory, you can run:
 
+<<<<<<< HEAD
+=======
+### 'npm install'
+>>>>>>> 61ac58e773de8c7df344ad6cc2c97e80d786245d
 ### `npm start`
 
 # Prueba de nivel
