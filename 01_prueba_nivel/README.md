@@ -1,3 +1,9 @@
+# Run
+
+In the project directory, you can run:
+
+### `npm start`
+
 # Prueba de nivel
 
 El ejercicio consiste en crear una página web desde cero.
