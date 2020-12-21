@@ -42,10 +42,64 @@
       </div>
     </div>
 
+
     <script>
+
       window.createApp = ({ rootElementId, initialState, handlers }) => {
-        // ... 📝
+        const iterateChildrens = (childrens, handlers, initialState, parent) => {
+          childrens.map(child => {
+            if(child.attributes) applyAttributes(Array.from(child.attributes), child, handlers, initialState, parent);
+            if(child.children) iterateChildrens(Array.from(child.children), handlers, initialState, parent);
+          });
+        }
+        const applyAttributes = (attributes, child, handlers, state, parent) => {
+          (attributes).map(attr =>{
+            var fields = attr.name.split(':');
+    
+            //Returns Returns the name of the attribute. Ex: "fw-on"/"fw-if"/"fw-attr"/....
+            var attributeName =  fields[0];
+    
+            //Returns the type of the attribute. Ex: "change", "value", ....
+            var type = fields[1];
+    
+            //Returns the value of the atribute. Ex: "password", "changePassword", "isPageLogin", ....
+            const value = attr.value;
+    
+            switch(attributeName){
+              case("fw-content"):{
+                child.innerHTML = state[value]
+                break;
+              }
+    
+              case("fw-if"):{
+    
+                if (state[value] === false) child.hidden = true
+                else if(state[value] === true) child.hidden = false
+                break;
+              }
+              case("fw-attr"):{
+                child.setAttribute(type, state[value])
+                break;
+              }
+              case ("fw-on"):{
+    
+    
+                //evento pasandole el nombre del evento
+                child.addEventListener(type, (event) => {
+                  //llamar al handler y actualizar estado
+                  state = handlers[value](state,event)
+                  //llamar a la funcion regresiva
+                  iterateChildrens(Array.from(parent.children), handlers, state, parent)
+                });
+                break;
+              }
+            }
+          });
+        }
+        const root = document.getElementById(rootElementId);
+          iterateChildrens(Array.from(root.children), handlers, initialState, root);
       }
+    
     </script>
 
     <script>
