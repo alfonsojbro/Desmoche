@@ -1,4 +1,4 @@
-import Deck from "./deck.js"
+import  Deck, {Card} from "./deck.js"
 
 const CARD_VALUE_MAP = {
   "2": 2,
@@ -17,16 +17,17 @@ const CARD_VALUE_MAP = {
 }
 
 const computerCardSlot = document.querySelector(".computer-card-slot")
-const playerCardSlot = document.querySelector(".player-card-slot")
+
 const computerDeckElement = document.querySelector(".computer-deck")
-const playerDeckElement = document.querySelector(".player-deck")
-const text = document.querySelector(".text")
+const playerCardContainer = document.querySelector(".player-card-container")
+const playerCardCombinations = document.querySelector(".player-card-combinations")
+const button = document.querySelector(".button")
 
-let playerDeck, computerDeck, inRound, stop
+let playerDeck, computerDeck, inRound, stop, cardsSelected
 
-document.addEventListener("click", () => {
+button.addEventListener("click", () => {
   if (stop) {
-    startGame()
+    startGame(1)
     return
   }
 
@@ -37,25 +38,37 @@ document.addEventListener("click", () => {
   }
 })
 
-startGame()
-function startGame() {
+
+startGame(1)
+function startGame(numberOfPlayers) {
   const deck = new Deck()
   deck.shuffle()
 
-  const deckMidpoint = Math.ceil(deck.numberOfCards / 2)
-  playerDeck = new Deck(deck.cards.slice(0, deckMidpoint))
-  computerDeck = new Deck(deck.cards.slice(deckMidpoint, deck.numberOfCards))
+  const deckSplitPoint = deck.numberOfCards - (numberOfPlayers * 9);
+ 
+  computerDeck = new Deck(deck.cards.slice(0, deckSplitPoint))
+  playerDeck = new Deck(deck.cards.slice(deckSplitPoint, deck.numberOfCards))
   inRound = false
   stop = false
+  cardsSelected = []
 
+  showPlayerDeck()
   cleanBeforeRound()
 }
 
+function showPlayerDeck(){
+  playerDeck.cards.map(card=> {
+    const currentCard = card.getHTML();
+    currentCard.addEventListener("click", selectCard);
+    playerCardContainer.appendChild(currentCard)
+  })
+
+}
 function cleanBeforeRound() {
   inRound = false
   computerCardSlot.innerHTML = ""
-  playerCardSlot.innerHTML = ""
-  text.innerText = ""
+
+  button.innerText = "Click to Draw"
 
   updateDeckCount()
 }
@@ -63,27 +76,15 @@ function cleanBeforeRound() {
 function flipCards() {
   inRound = true
 
-  const playerCard = playerDeck.pop()
+  button.innerText = "Make your game"
   const computerCard = computerDeck.pop()
+  computerCardSlot.addEventListener("click", selectCard)
 
-  playerCardSlot.appendChild(playerCard.getHTML())
+
   computerCardSlot.appendChild(computerCard.getHTML())
-
+ 
   updateDeckCount()
 
-  if (isRoundWinner(playerCard, computerCard)) {
-    text.innerText = "Win"
-    playerDeck.push(playerCard)
-    playerDeck.push(computerCard)
-  } else if (isRoundWinner(computerCard, playerCard)) {
-    text.innerText = "Lose"
-    computerDeck.push(playerCard)
-    computerDeck.push(computerCard)
-  } else {
-    text.innerText = "Draw"
-    playerDeck.push(playerCard)
-    computerDeck.push(computerCard)
-  }
 
   if (isGameOver(playerDeck)) {
     text.innerText = "You Lose!!"
@@ -96,13 +97,40 @@ function flipCards() {
 
 function updateDeckCount() {
   computerDeckElement.innerText = computerDeck.numberOfCards
-  playerDeckElement.innerText = playerDeck.numberOfCards
+
 }
 
-function isRoundWinner(cardOne, cardTwo) {
-  return CARD_VALUE_MAP[cardOne.value] > CARD_VALUE_MAP[cardTwo.value]
-}
 
 function isGameOver(deck) {
   return deck.numberOfCards === 0
 }
+
+function selectCard(event){
+
+  const dataValue = event.target.getAttribute("data-value")
+  const dataSplit = dataValue.split(" ")
+  const value = dataSplit[0]
+  const suit = dataSplit[1]
+
+  const isCardSelected = (card) => (card.value === value && card.suit === suit)
+  const index = cardsSelected.findIndex(isCardSelected)
+
+  if(index < 0){
+    const card = new Card(suit, value)
+    event.target.style.backgroundColor = "green"
+    cardsSelected.push(card)
+  } else {
+    event.target.style.backgroundColor =""
+    cardsSelected.splice(index, 1)
+  }
+ 
+
+
+ 
+
+
+
+ console.log(cardsSelected)
+}
+
+
