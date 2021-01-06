@@ -58,6 +58,7 @@ export class Card {
     cardDiv.innerText = this.suit
     cardDiv.classList.add("card", this.color)
   
+    cardDiv.id = `${this.value} ${this.suit}`
     cardDiv.dataset.value = `${this.value} ${this.suit}`
     return cardDiv
   }
