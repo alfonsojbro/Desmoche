@@ -1,13 +1,36 @@
 const createServer = require("./create_server.js");
-
+var fs = require('fs');
 const get = (request, response) => {
-  // ...📝
 
-  response.send(
-    "200"
-    // ...,
-    // ...
-  );
+  console.log("Main", request.path)
+
+
+  if(request.path === '/' != -1){
+    fs.readFile('index.html', function(err, data){
+      if(err) return console.log(err);
+      
+
+      response.send(200, { "Content-Type": "text/html" }, data);
+    });
+  }
+  
+
+  if(request.path.indexOf('.js') != -1){
+
+    fs.readFile('script.js', function (err, data) {
+        response.send(200, {'Content-Type': 'text/javascript'}, data);
+    });
+  }
+
+
+  if(request.path.indexOf('.css') != -1){
+      fs.readFile('styles.css', function (err, data) {
+        if (err) console.log(err);
+    
+        response.send(200, {'Content-Type': 'text/css'}, data);
+        
+      });
+    }
 };
 
 const post = (request, response) => {
@@ -46,5 +69,6 @@ const server = createServer((request, response) => {
     response.send(500, { "Content-Type": "text/plain" }, "Uncaught error");
   }
 });
+
 
 server.listen(8080);

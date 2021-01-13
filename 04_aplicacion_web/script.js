@@ -1,5 +1,3 @@
-import  Deck, {Card} from "./deck.js"
-
 const computerCardSlot = document.querySelector(".computer-card-slot")
 
 const computerDeckElement = document.querySelector(".computer-deck")
@@ -13,13 +11,16 @@ const buttonDrop = document.querySelector(".buttonDrop")
 let playerDeck, computerDeck, inRound, stop, cardsSelected, computerCard
 
 
+function httpGetAsync(url, callback){
+  fetch(url).then(data => console.log(data));
+}
 
 buttonDraw.addEventListener("click", () => {
+  httpGetAsync("http://localhost:8080", () => {});
   if (stop) {
     startGame(1)
     return
   }
-
   if (inRound) {
     cleanBeforeRound()
   } else {
@@ -79,10 +80,10 @@ function flipCards() {
 
 
   if (isGameOver(playerDeck)) {
-    text.innerText = "You Lose!!"
+    alert( "You Lose!!")
     stop = true
   } else if (isGameOver(computerDeck)) {
-    text.innerText = "You Win!!"
+   alert("You Win!!")
     stop = true
   }
 }
@@ -108,10 +109,7 @@ function selectCard(event){
   const index = cardsSelected.findIndex(isCardSelected)
 
   if(index < 0){
-  
-
-    const valueFormatted = convertFromStringToNumberValue(value);
-    const card = new Card(suit, valueFormatted)
+    const card = new Card(suit, value)
     event.target.style.backgroundColor = "green"
     cardsSelected.push(card)
   } else {
@@ -125,12 +123,10 @@ function makeGame(){
 
   if( cardsSelected.length < 3) return;
   const cardsSelectedSorted = cardsSelected.sort((a,b) => { 
-    const aValue = (a.value);
-    const bValue = (b.value);
+    const aValue = convertFromStringToNumberValue(a.value);
+    const bValue = convertFromStringToNumberValue(b.value);
     return parseInt(aValue) - parseInt(bValue);
    })
-
-   
    if(isStraight(cardsSelectedSorted) || isSameNumber(cardsSelectedSorted)  ){
     updateGame(cardsSelectedSorted)
 
@@ -150,7 +146,7 @@ function makeGame(){
 }
 function isComputerCardSelected(){
   for(var x = 0; x <cardsSelected.length; x++){
-    if(computerCard.value === cardsSelected[x].value && computerCard.suit === cardsSelected[x].suit) return true;
+    if(computerCard.value === convertFromNumberToStringValue(cardsSelected[x].value) && computerCard.suit === cardsSelected[x].suit) return true;
   }
   return false;
 }
@@ -162,6 +158,7 @@ function updateGame(cards){
   cardCombinationsContainer.classList.add("cardContainer")
   cards.map(card=> {
     const currentCard = card.getHTML();
+    console.log(card)
     var cardToRemove = document.getElementById(`${card.value} ${card.suit}`);
     if(cardToRemove) cardToRemove.parentNode.removeChild(cardToRemove)
     cardCombinationsContainer.appendChild(currentCard)
@@ -175,6 +172,7 @@ function selectCardToDrop(){
   buttonDrop.addEventListener("click", (event) => {
       const card = cardsSelected[0];
       if(!card) return alert("Selecciona una carta para botar");
+      console.log(card)
       var cardToRemove = document.getElementById(`${card.value} ${card.suit}`);
       if(cardToRemove) cardToRemove.parentNode.removeChild(cardToRemove)
       buttonDraw.style.display = "block"
@@ -212,4 +210,88 @@ function convertFromStringToNumberValue(value){
   else if(value === "A") value = "1";
 
   return value;
+}
+
+function convertFromNumberToStringValue(number){
+  if(number === "11") number = "J";
+  else if(number === "12") number = "Q";
+  else if(number === "13") number = "K";
+  else if(number === "1") number = "A";
+
+  return number;
+}
+
+
+const SUITS = ["♠", "♣", "♥", "♦"]
+const VALUES = [
+  "A",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "J",
+  "Q",
+  "K"
+]
+
+export default class Deck {
+  constructor(cards = freshDeck()) {
+    this.cards = cards
+  }
+
+  get numberOfCards() {
+    return this.cards.length
+  }
+
+  pop() {
+    return this.cards.shift()
+  }
+
+  push(card) {
+    this.cards.push(card)
+  }
+
+  shuffle() {
+    for (let i = this.numberOfCards - 1; i > 0; i--) {
+      const newIndex = Math.floor(Math.random() * (i + 1))
+      const oldValue = this.cards[newIndex]
+      this.cards[newIndex] = this.cards[i]
+      this.cards[i] = oldValue
+    }
+  }
+ 
+}
+
+export class Card {
+  constructor(suit, value) {
+    this.suit = suit
+    this.value = value
+  }
+
+  get color() {
+    return this.suit === "♣" || this.suit === "♠" ? "black" : "red"
+  }
+
+  getHTML() {
+    const cardDiv = document.createElement("div")
+    cardDiv.innerText = this.suit
+    cardDiv.classList.add("card", this.color)
+  
+    cardDiv.id = `${this.value} ${this.suit}`
+    cardDiv.dataset.value = `${this.value} ${this.suit}`
+    return cardDiv
+  }
+}
+
+function freshDeck() {
+  return SUITS.flatMap(suit => {
+    return VALUES.map(value => {
+      return new Card(suit, value)
+    })
+  })
 }
