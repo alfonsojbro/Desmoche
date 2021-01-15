@@ -4,20 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>DESMOCHE</title>
+    <title>Desmoche</title>
 
     <link rel="stylesheet" href="http://localhost:8080/styles.css" />
   </head>
   <body>
-    <div class="screen-into">
-      <div class="screen screen-intro active-screen">
-        <div class="homeButton button-new-game">Nuevo Juego</div>
-        <div class="homeButton button-rules">Reglas</div>
-        <div class="homeButton button-settings">Puntos</div>
-      </div>
+    <div class="button home-button">Inicio</div>
+
+    <div class="screen screen-intro active-screen">
+      <h1>DESMOCHE</h1>
+      <div class="button button-new-game">Nuevo Juego</div>
+      <div class="button button-rules">Reglas</div>
+      <div class="button button-score">Puntaje</div>
     </div>
 
-    <div class="screen-game">
+    <div class="screen screen-rules">
+      <h1>Reglas</h1>
+      <p>Puedes realizar las siguientes combinaciones</p>
+      <ul>
+        <li>Cartas del mismo número</li>
+        <li>Cartas en ascendente con el mismo símbolo (Escalera)</li>
+      </ul>
+      <p>La cantidad mínima de cartas que puedes bajar son 3.</p>
+    </div>
+
+    <div class="screen screen-score">
+      <h1>Lista de campeones</h1>
+      <table class="score-table">
+        <tr>
+          <th>Nombre</th>
+          <th>Ganadas</th>
+          <th>Perdidas</th>
+        </tr>
+      </table>
+    </div>
+    <div class="screen screen-game">
+      <div class="button save-score-button">Guardar</div>
       <div class="card-container">
         <div class="computer-deck deck"></div>
         <div class="computer-card-slot card-slot"></div>

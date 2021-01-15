@@ -84,10 +84,6 @@ const buttonDrop = document.querySelector(".buttonDrop")
 
 let playerDeck, computerDeck, inRound, stop, cardsSelected, computerCard
 
-/*
-function httpGetAsync(url, callback){
-  fetch(url).then(data => console.log(data));
-}*/
 buttonDraw.addEventListener("click", () => {
 
   if (stop) {
@@ -298,11 +294,13 @@ function convertFromNumberToStringValue(number){
 
 
 
+const buttonRules = document.querySelector(".button-rules")
 
+const buttonScore = document.querySelector(".button-score")
 const buttonNewGame = document.querySelector('.button-new-game')
 const homeScreen = document.querySelector('.screen-intro')
-  
-
+const homeButton = document.querySelector('.home-button')
+const scoreTable = document.querySelector('.score-table')
 
   function fadeToScreen(targetScreenClassName) {
     var _nameScreen;
@@ -314,15 +312,70 @@ const homeScreen = document.querySelector('.screen-intro')
     _nameScreen = targetScreenClassName;
 
     var $elementTarget = '.' + _nameScreen;
-    
-    
-    document.querySelector($elementTarget).style.display = "block"
-    homeScreen.style.display = "none"
+    var $elementActiveScreen = '.active-screen';
 
-    console.log("Screen Game")
+    const previousActiveElement = document.querySelector($elementActiveScreen)
+    previousActiveElement.classList.remove("active-screen")
+
+
+    const newActiveElement =  document.querySelector($elementTarget)
+    newActiveElement.classList.add("active-screen");
+   
+    
+ 
   }
   buttonNewGame.addEventListener('click', event =>  {
     fadeToScreen('screen-game');
     startGame(1)
   });
+
+
+  
+function postScore(data){
+  fetch("http://localhost:8080/postScore", {
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify(data), // data can be `string` or {object}!
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+  .catch(error => console.error('Error:', error))
+  .then(response => console.log('Success:', response));
+}
+function getScore(){
+  fetch("http://localhost:8080/getScore").then(data => setScore(data.json()));
+}
+function setScore(result){
+
+  result.map(score => {
+    var newRow = scoreTable.insertRow();
+    var nameCell = newRow.insertCell();
+    var nameText = document.createTextNode(score.name);
+    nameCell.appendChild(nameText);
+
+    var winCell = newRow.insertCell();
+    var winText = document.createTextNode(score.win);
+    winCell.appendChild(winText);
+
+    var lossCell = newRow.insertCell();
+    var lossText = document.createTextNode(score.loss);
+    lossCell.appendChild(lossText);
+  })
+
+}
+  buttonScore.addEventListener('click', event =>  {
+    fadeToScreen('screen-score');
+
+    getScore()
+   
+  });
+
+  buttonRules.addEventListener('click', event =>  {
+    fadeToScreen('screen-rules');
+   
+  });
+  homeButton.addEventListener('click', event =>{
+    fadeToScreen('screen-intro')
+  })
+  
 

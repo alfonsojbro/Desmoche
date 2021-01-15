@@ -12,11 +12,11 @@ body {
   justify-content: center;
   padding-top: 1rem;
   align-content: center;
+  font-family: Montserrat, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.screen-game {
-  display: none;
-}
 .deck {
   height: 100%;
   width: 100%;
@@ -132,7 +132,7 @@ body a {
   color: #ecf0f1;
 }
 
-.homeButton {
+.button {
   margin: 0 auto 20px;
   width: 200px;
   border-radius: 3px;
@@ -144,15 +144,108 @@ body a {
 }
 
 .screen {
-  opacity: 0;
-  visibility: hidden;
+  display: none;
   position: absolute;
   top: 50%;
   left: 50%;
+  color: white;
   transform: translate(-50%, -50%);
 }
 
 .screen-intro {
   opacity: 1;
   visibility: visible;
+}
+
+.active-screen {
+  display: block;
+}
+.home-button {
+  position: absolute;
+
+  top: 50px;
+  left: 50px;
+}
+.save-score-button {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  font-size: small;
+  width: 100px;
+}
+
+@import "https://fonts.googleapis.com/css?family=Montserrat:300,400,700";
+.rwd-table {
+  margin: 1em 0;
+  min-width: 300px;
+}
+.rwd-table tr {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.rwd-table th {
+  display: none;
+}
+.rwd-table td {
+  display: block;
+}
+.rwd-table td:first-child {
+  padding-top: 0.5em;
+}
+.rwd-table td:last-child {
+  padding-bottom: 0.5em;
+}
+.rwd-table td:before {
+  content: attr(data-th) ": ";
+  font-weight: bold;
+  width: 6.5em;
+  display: inline-block;
+}
+@media (min-width: 480px) {
+  .rwd-table td:before {
+    display: none;
+  }
+}
+.rwd-table th,
+.rwd-table td {
+  text-align: left;
+}
+@media (min-width: 480px) {
+  .rwd-table th,
+  .rwd-table td {
+    display: table-cell;
+    padding: 0.25em 0.5em;
+  }
+  .rwd-table th:first-child,
+  .rwd-table td:first-child {
+    padding-left: 0;
+  }
+  .rwd-table th:last-child,
+  .rwd-table td:last-child {
+    padding-right: 0;
+  }
+}
+
+.rwd-table {
+  background: #34495e;
+  color: #fff;
+  border-radius: 0.4em;
+  overflow: hidden;
+}
+.rwd-table tr {
+  border-color: #46637f;
+}
+.rwd-table th,
+.rwd-table td {
+  margin: 0.5em 1em;
+}
+@media (min-width: 480px) {
+  .rwd-table th,
+  .rwd-table td {
+    padding: 1em !important;
+  }
+}
+.rwd-table th,
+.rwd-table td:before {
+  color: #dd5;
 }
