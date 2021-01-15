@@ -2,7 +2,6 @@ const createServer = require("./create_server.js");
 var fs = require('fs');
 const get = (request, response) => {
 
-  console.log("Main", request.path)
 
 
   if(request.path === '/' != -1){
@@ -15,8 +14,8 @@ const get = (request, response) => {
   }
   
 
-  if(request.path.indexOf('.js') != -1){
-
+  if(request.path.indexOf('script.js') != -1){
+ 
     fs.readFile('script.js', function (err, data) {
         response.send(200, {'Content-Type': 'text/javascript'}, data);
     });

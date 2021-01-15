@@ -68,12 +68,14 @@ const createHTTPResponse = (status, cabecera, body, socket) => {
   }
   socket.write("\r\n");
   socket.write(body + "\n");
-  socket.end();
+  
+ 
 };
 
 const createServer = (requestHandler) => {
   //crear servicio
   const server = net.createServer((socket) => {
+    socket.setTimeout(10000);
     let buffer = [];
     socket.on("data", (chunk) => {
       buffer.push(chunk.toString());
@@ -91,6 +93,7 @@ const createServer = (requestHandler) => {
         requestHandler(request, response);
       }
     });
+    socket.on("timeout",() => socket.end())
   });
   return {
     //escuchar por el puerto que viene por parametro

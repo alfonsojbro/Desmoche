@@ -1,5 +1,79 @@
-const computerCardSlot = document.querySelector(".computer-card-slot")
+console.log("Javascript online")
+const SUITS = ["♠", "♣", "♥", "♦"]
+const VALUES = [
+  "A",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "J",
+  "Q",
+  "K"
+]
 
+class Deck {
+  constructor(cards = freshDeck()) {
+    this.cards = cards
+  }
+
+  get numberOfCards() {
+    return this.cards.length
+  }
+
+  pop() {
+    return this.cards.shift()
+  }
+
+  push(card) {
+    this.cards.push(card)
+  }
+
+  shuffle() {
+    for (let i = this.numberOfCards - 1; i > 0; i--) {
+      const newIndex = Math.floor(Math.random() * (i + 1))
+      const oldValue = this.cards[newIndex]
+      this.cards[newIndex] = this.cards[i]
+      this.cards[i] = oldValue
+    }
+  }
+ 
+}
+
+class Card {
+  constructor(suit, value) {
+    this.suit = suit
+    this.value = value
+  }
+
+  get color() {
+    return this.suit === "♣" || this.suit === "♠" ? "black" : "red"
+  }
+
+  getHTML() {
+    const cardDiv = document.createElement("div")
+    cardDiv.innerText = this.suit
+    cardDiv.classList.add("card", this.color)
+  
+    cardDiv.id = `${this.value} ${this.suit}`
+    cardDiv.dataset.value = `${this.value} ${this.suit}`
+    return cardDiv
+  }
+}
+
+function freshDeck() {
+  return SUITS.flatMap(suit => {
+    return VALUES.map(value => {
+      return new Card(suit, value)
+    })
+  })
+}
+
+const computerCardSlot = document.querySelector(".computer-card-slot")
 const computerDeckElement = document.querySelector(".computer-deck")
 const playerCardContainer = document.querySelector(".player-card-container")
 const playerCardCombinations = document.querySelector(".player-card-combinations")
@@ -10,13 +84,12 @@ const buttonDrop = document.querySelector(".buttonDrop")
 
 let playerDeck, computerDeck, inRound, stop, cardsSelected, computerCard
 
-
+/*
 function httpGetAsync(url, callback){
   fetch(url).then(data => console.log(data));
-}
-
+}*/
 buttonDraw.addEventListener("click", () => {
-  httpGetAsync("http://localhost:8080", () => {});
+
   if (stop) {
     startGame(1)
     return
@@ -29,9 +102,10 @@ buttonDraw.addEventListener("click", () => {
 })
 
 buttonGame.addEventListener("click", (event) => makeGame(event))
-startGame(1)
+
 function startGame(numberOfPlayers) {
   
+  console.log("Game Started")
   const deck = new Deck()
   deck.shuffle()
 
@@ -222,76 +296,33 @@ function convertFromNumberToStringValue(number){
 }
 
 
-const SUITS = ["♠", "♣", "♥", "♦"]
-const VALUES = [
-  "A",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "J",
-  "Q",
-  "K"
-]
 
-export default class Deck {
-  constructor(cards = freshDeck()) {
-    this.cards = cards
-  }
 
-  get numberOfCards() {
-    return this.cards.length
-  }
 
-  pop() {
-    return this.cards.shift()
-  }
-
-  push(card) {
-    this.cards.push(card)
-  }
-
-  shuffle() {
-    for (let i = this.numberOfCards - 1; i > 0; i--) {
-      const newIndex = Math.floor(Math.random() * (i + 1))
-      const oldValue = this.cards[newIndex]
-      this.cards[newIndex] = this.cards[i]
-      this.cards[i] = oldValue
-    }
-  }
- 
-}
-
-export class Card {
-  constructor(suit, value) {
-    this.suit = suit
-    this.value = value
-  }
-
-  get color() {
-    return this.suit === "♣" || this.suit === "♠" ? "black" : "red"
-  }
-
-  getHTML() {
-    const cardDiv = document.createElement("div")
-    cardDiv.innerText = this.suit
-    cardDiv.classList.add("card", this.color)
+const buttonNewGame = document.querySelector('.button-new-game')
+const homeScreen = document.querySelector('.screen-intro')
   
-    cardDiv.id = `${this.value} ${this.suit}`
-    cardDiv.dataset.value = `${this.value} ${this.suit}`
-    return cardDiv
-  }
-}
 
-function freshDeck() {
-  return SUITS.flatMap(suit => {
-    return VALUES.map(value => {
-      return new Card(suit, value)
-    })
-  })
-}
+
+  function fadeToScreen(targetScreenClassName) {
+    var _nameScreen;
+
+    if (!targetScreenClassName) {
+      _nameScreen = 'screen-intro';
+    }
+
+    _nameScreen = targetScreenClassName;
+
+    var $elementTarget = '.' + _nameScreen;
+    
+    
+    document.querySelector($elementTarget).style.display = "block"
+    homeScreen.style.display = "none"
+
+    console.log("Screen Game")
+  }
+  buttonNewGame.addEventListener('click', event =>  {
+    fadeToScreen('screen-game');
+    startGame(1)
+  });
+

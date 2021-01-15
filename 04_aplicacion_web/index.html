@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>DESMOCHE</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DESMOCHE</title>
 
-  <link rel="stylesheet" href="http://localhost:8080/styles.css">
-<script type="text/javascript" src="http://localhost:8080/script.js"></script>
-</head>
-<body>
-  <div class="card-container">
-    <div class="computer-deck deck"></div>
-    <div class="computer-card-slot card-slot"></div>
-  </div>
-  <div class="buttonContainer">
-  <button class="button buttonDraw">Click to Draw</button>
-  <button class="button buttonGame">Make your game</button>
-  <button class="button buttonDrop">Drop Card</button>
-</div>
-  <div class="card-container player-card-container"></div>
+    <link rel="stylesheet" href="http://localhost:8080/styles.css" />
+  </head>
+  <body>
+    <div class="screen-into">
+      <div class="screen screen-intro active-screen">
+        <div class="homeButton button-new-game">Nuevo Juego</div>
+        <div class="homeButton button-rules">Reglas</div>
+        <div class="homeButton button-settings">Puntos</div>
+      </div>
+    </div>
 
-  <h3 class="player-card-combinations-title">Your games</h3>
-  <div class="card-container player-card-combinations"></div>
-</body>
+    <div class="screen-game">
+      <div class="card-container">
+        <div class="computer-deck deck"></div>
+        <div class="computer-card-slot card-slot"></div>
+      </div>
+      <div class="buttonContainer">
+        <button class="button buttonDraw">Click to Draw</button>
+        <button class="button buttonGame">Make your game</button>
+        <button class="button buttonDrop">Drop Card</button>
+      </div>
+      <div class="card-container player-card-container"></div>
+
+      <h3 class="player-card-combinations-title">Your games</h3>
+      <div class="card-container player-card-combinations"></div>
+    </div>
+  </body>
+  <script type="text/javascript" src="http://localhost:8080/script.js"></script>
 </html>

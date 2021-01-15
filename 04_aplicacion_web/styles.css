@@ -14,6 +14,9 @@ body {
   align-content: center;
 }
 
+.screen-game {
+  display: none;
+}
 .deck {
   height: 100%;
   width: 100%;
@@ -59,6 +62,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 4rem;
+  background-color: white;
   margin: 2px;
 }
 .buttonDrop {
@@ -106,4 +110,49 @@ body {
   bottom: 0.5rem;
   right: 0.5rem;
   transform: rotate(180deg);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  font-family: sans-serif;
+  line-height: 1.4;
+}
+body a {
+  display: inline-block;
+  color: #ecf0f1;
+}
+
+.homeButton {
+  margin: 0 auto 20px;
+  width: 200px;
+  border-radius: 3px;
+  text-align: center;
+  clear: both;
+  padding: 10px;
+  background-color: rgba(236, 240, 241, 0.3);
+  cursor: pointer;
+}
+
+.screen {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.screen-intro {
+  opacity: 1;
+  visibility: visible;
 }
