@@ -29,29 +29,58 @@
     </div>
 
     <div class="screen screen-score">
-      <h1>Lista de campeones</h1>
-      <table class="score-table">
+      <h1>Los campeones</h1>
+      <table class="rwd-table">
         <tr>
           <th>Nombre</th>
           <th>Ganadas</th>
           <th>Perdidas</th>
+          <th>Fecha</th>
         </tr>
+        <tbody class="rwd-body"></tbody>
       </table>
     </div>
     <div class="screen screen-game">
-      <div class="button save-score-button">Guardar</div>
+      <div data-modal="#modal1" class="button save-score-button modal__trigger">
+        Guardar
+      </div>
+      <div id="modal1" class="modal modal__bg" role="dialog" aria-hidden="true">
+        <div class="modal__dialog">
+          <div class="modal__content">
+            <h1>Guardar puntaje</h1>
+            <h6 class="total_score_win"></h6>
+            <h6 class="total_score_loss"></h6>
+            <p>Nombre del jugador</p>
+            <input  type="text" class="player-name-input"></input>
+            
+           <button class="modal__close">Guardar</button>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-row">
+          <div class="score-marker-title">Ganadas: </div>
+          <p class="score-marker-won">0</p>
+        </div>
+        <div class="score-row">
+          <div class="score-marker-title">Perdidas: </div>
+          <p class="score-marker-loss">0</p>
+        </div>
+      </div>
       <div class="card-container">
         <div class="computer-deck deck"></div>
         <div class="computer-card-slot card-slot"></div>
       </div>
       <div class="buttonContainer">
-        <button class="button buttonDraw">Click to Draw</button>
-        <button class="button buttonGame">Make your game</button>
-        <button class="button buttonDrop">Drop Card</button>
+        <button class="button buttonDraw">Clic para Sacar Carta</button>
+        <button class="button buttonGame">Haz tu juego</button>
+        <button class="button buttonDrop">Bajar carta</button>
       </div>
       <div class="card-container player-card-container"></div>
 
-      <h3 class="player-card-combinations-title">Your games</h3>
+      <h3 class="player-card-combinations-title">Tus juegos</h3>
       <div class="card-container player-card-combinations"></div>
     </div>
   </body>
